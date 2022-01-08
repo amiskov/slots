@@ -34,6 +34,7 @@
                  [ring/ring-defaults "0.3.3"]
                  [clojure.java-time "0.3.3"]
                  [cheshire "5.10.1"]
+                 [com.cemerick/drawbridge "0.0.7"]
                  [selmer "1.12.45"]]
 
   :min-lein-version "2.0.0"
