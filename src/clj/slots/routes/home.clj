@@ -11,10 +11,12 @@
 
 (defn home-page [{:keys [params] :as request}]
   (let [{:keys [duration preferred-tutors]} params
-        d (Integer/parseInt duration)
-        tutors (if (vector? preferred-tutors)
-                 (mapv #(Integer/parseInt %) preferred-tutors)
-                 [(Integer/parseInt preferred-tutors)])]
+        d (if duration (Integer/parseInt duration) 20)
+        tutors (if preferred-tutors
+                (if (vector? preferred-tutors)
+                  (mapv #(Integer/parseInt %) preferred-tutors)
+                  [(Integer/parseInt preferred-tutors)])
+                nil)]
     (prn (vec preferred-tutors))
     (layout/render
       request
