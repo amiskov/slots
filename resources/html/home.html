@@ -1,26 +1,28 @@
 {% extends "base.html" %}
 {% block content %}
 <br>
-<div style="padding: 10px">
-    <pre>{{request}}</pre>
+<div style="padding: 10px" class="content">
     <form method="GET" action="/">
-        <div>
+        <div class="field">
+            Period: from 2022-01-06 to 2022-01-08.
+        </div>
+        <div class="field">
             <label>Duration
                 <select name="duration" id="duration">
                     {%for d in durations %}
-                    <option {%if d = 20 %} selected="selected" {%endif%} value="{{d}}">{{d}}</option>
+                    <option {%if d=20 %} selected="selected" {%endif%} value="{{d}}">{{d}}</option>
                     {%endfor%}
                 </select>
                 minutes.
             </label>
-            &nbsp;&nbsp;&nbsp;&nbsp;
+        </div>
+        <div class="field">
             Preferred tutors (select none to use all):
             {%for t in tutors %}
             <label>
                 <input type="checkbox" {%if t.selected %}checked{%endif%} name="preferred-tutors" value="{{t.id}}">&nbsp;{{t.name}}</label>&nbsp;
             {%endfor%}
         </div>
-        <br>
         <button class="button is-primary">Search</button>
         <br>
         <br>
@@ -31,7 +33,11 @@
     <h3 class="is-size-4">
         On {{s.date|date:shortDate}} {{s.tutor-name}} is available for {{slots.duration}} min speaking session:
     </h3>
-    <pre class="is-size-7">{{ s.free-periods-timestamps }}</pre>
+    <ul>
+        {%for f in s.free-periods-timestamps %}
+        <li>{{f.start|date:"HH:mm"}} to {{f.end|date:"HH:mm"}}
+            {%endfor%}
+    </ul>
     <div class="table-container">
         <table class="table is-bordered is-narrow">
             <tr>

@@ -17,7 +17,6 @@
                   (mapv #(Integer/parseInt %) preferred-tutors)
                   [(Integer/parseInt preferred-tutors)])
                 nil)]
-    (prn (vec preferred-tutors))
     (layout/render
       request
       "home.html"
