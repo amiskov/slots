@@ -7,6 +7,7 @@
     [slots.config :refer [env]]
     [clojure.tools.cli :refer [parse-opts]]
     [clojure.tools.logging :as log]
+    [slots.db.core :as db]
     [mount.core :as mount])
   (:gen-class))
 
@@ -26,7 +27,7 @@
   :start
   (http/start
     (-> env
-        (update :io-threads #(or % (* 2 (.availableProcessors (Runtime/getRuntime))))) 
+        (update :io-threads #(or % (* 2 (.availableProcessors (Runtime/getRuntime)))))
         (assoc  :handler (handler/app))
         (update :port #(or (-> env :options :port) %))
         (select-keys [:handler :host :port])))
@@ -54,6 +55,12 @@
                         mount/start-with-args
                         :started)]
     (log/info component "started"))
+  (migrations/migrate ["migrate"] (select-keys env [:database-url]))
+  (migrations/migrate ["reset"] (select-keys env [:database-url]))
+  (do
+    (db/insert-tutors!)
+    (db/insert-availabilities!)
+    (db/insert-speaking-sessions!))
   (.addShutdownHook (Runtime/getRuntime) (Thread. stop-app)))
 
 (defn -main [& args]
