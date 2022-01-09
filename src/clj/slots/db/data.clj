@@ -1,4 +1,4 @@
-(ns slots.routes.data
+(ns slots.db.data
   (:require [slots.db.helpers :refer [ts]]
             [java-time :as jt]))
 

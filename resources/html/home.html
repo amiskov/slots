@@ -10,7 +10,7 @@
             <label>Duration
                 <select name="duration" id="duration">
                     {%for d in durations %}
-                    <option {%if d=20 %} selected="selected" {%endif%} value="{{d}}">{{d}}</option>
+                    <option value="{{d}}">{{d}}</option>
                     {%endfor%}
                 </select>
                 minutes.
@@ -27,25 +27,30 @@
         <br>
         <br>
     </form>
-    <h2 class="is-size-3">Duration: {{slots.duration}} minutes; Preferred tutors: {{slots.preferred-tutors}}</h2>
-    {% for s in slots.calendar %}
+    <h2 class="is-size-3">
+        Duration: {{slots-for-period.duration}} minutes;
+        Preferred tutors: {%if slots-for-period.preferred-tutors %} {{slots-for-period.preferred-tutors}} {%else%} all
+        {%endif%}
+    </h2>
+    {% for s in slots-for-period.slots %}
     <hr>
     <h3 class="is-size-4">
-        On {{s.date|date:shortDate}} {{s.tutor-name}} is available for {{slots.duration}} min speaking session:
+        On {{s.date|date:shortDate}} {{s.tutor-name}} is available for {{slots-for-period.duration}} min speaking
+        session:
     </h3>
     <ul>
-        {%for f in s.free-periods-timestamps %}
-        <li>{{f.start|date:"HH:mm"}} to {{f.end|date:"HH:mm"}}
-            {%endfor%}
+        {%for f in s.current-availability-timestamps %}
+        <li>{{f.start|date:"HH:mm"}} to {{f.end|date:"HH:mm"}}</li>
+        {%endfor%}
     </ul>
     <div class="table-container">
         <table class="table is-bordered is-narrow">
             <tr>
-                {% for st in s.slots-by-type %}
+                {% for st in s.slots-on-grid %}
                 <td class="is-size-7
             {%if st.type = :reserved %} has-background-danger
-            {%elif st.type = :free %} has-background-success
-            {%elif st.type = :available %} has-background-warning
+            {%elif st.type = :currently-available %} has-background-success
+            {%elif st.type = :initially-available %} has-background-warning
             {%else %}
             {% endif %}">
                     {{st.num}}<br>
