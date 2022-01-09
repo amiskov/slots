@@ -10,7 +10,8 @@
             <label>Duration
                 <select name="duration" id="duration">
                     {%for d in durations %}
-                    <option value="{{d}}">{{d}}</option>
+                    <option {%if d = slots-for-period.duration %} selected="selected" {%endif%}
+                            value="{{d}}">{{d}}</option>
                     {%endfor%}
                 </select>
                 minutes.
