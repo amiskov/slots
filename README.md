@@ -27,7 +27,7 @@ Tutors choose availability periods by hand for each day.
 
 Speaking session for a tutor:
 
-```sql
+```
 speaking_sessions:
 - id PK
 - start_at TIMESTAMP
@@ -35,7 +35,7 @@ speaking_sessions:
 - tutor_id REFERENCES tutors(id)
 ```
 
-A speaking session can be reserved inside a 5-minute time grid: 16 (16:00, 16:05, 16:55, etc.).
+A speaking session can be reserved inside a 5-minute time grid (e.g. 16:00, 16:05, 16:55, etc.).
 
 ### The Task
 There are:
