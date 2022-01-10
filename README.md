@@ -6,30 +6,33 @@ A student can invite a tutor for a speaking session.
 ## Data Model
 There are tutors with a `break` property which represents their resting period after each speaking session:
 
-```clojure
-{:id uuid
- :break int ; minutes
-}
+```
+tutors:
+- id PK
+- name TEXT
+- break INT (minutes)
 ```
 
 Tutor's availability is represented with records of this form:
 
-```clojure
-{:id uuid
- :tutor-id uuid
- :start-at timestamp
- :end-at timestamp}
+```
+availabilities:
+- id PK
+- start_at TIMESTAMP
+- end_at TIMESTAMP
+- tutor_id REFERENCES tutors(id)
 ```
 
 Tutors choose availability periods by hand for each day.
 
 Speaking session for a tutor:
 
-```clojure
-{:id uuid
- :start-at timestamp
- :duration int ; minutes
- :tutor-id uuid}
+```sql
+speaking_sessions:
+- id PK
+- start_at TIMESTAMP
+- duration INT (minutes)
+- tutor_id REFERENCES tutors(id)
 ```
 
 A speaking session can be reserved inside a 5-minute time grid: 16 (16:00, 16:05, 16:55, etc.).
